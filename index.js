@@ -16,27 +16,33 @@ app.get('/scrape', function (req,res) {
 	var FeedParser = require('feedparser')
 	  , request = require('request');
 
-	var req1 = request(req.query.link)
+	var tmpReq = request(req.query.link)
 	  , feedparser = new FeedParser();
-	req1.on('error', function (error) {
+	tmpReq.on('error', function (error) {
 	  // handle any request errors
+	  res.send('error detected - see logs');
 	});
-	req1.on('response', function (res1) {
+	tmpReq.on('response', function (tmpRes) {
 	  var stream = this;
 
-	  if (res1.statusCode != 200) return this.emit('error', new Error('Bad status code'));
+	  if (tmpRes.statusCode != 200) return this.emit('error', new Error('Bad status code'));
 
 	  stream.pipe(feedparser);
 	});
 
 	feedparser.on('error', function(error) {
 	  // always handle errors
+	  res.send('error detected - see logs');
 	});
+
 	feedparser.on('readable', function() {
-	    var post;
-	    
+	    var post;    
 	    while (post = this.read()) {
 	      //out=out+(JSON.stringify(post.title+"@"+post.guid+"<br/>", ' ', 4));      
+	      out=out+post.guid;
+	      out=out+"<br/>";
+	      out=out+post.title;
+	      out=out+"<br/>";
 	      out=out+post.description;
 	      out=out+"<br/>";
 	    }
@@ -46,6 +52,42 @@ app.get('/scrape', function (req,res) {
 	    res.send(out);
 	});
 });
+
+app.get('/parse', function (req,res) {
+	var link = req.query.link;
+	var selector = req.query.selector;
+
+	var out='';
+	var request = require('request');
+
+	var tmpReq = request(req.query.link);
+
+	tmpReq.on('error', function (error) {
+	  // handle any request errors
+	  res.send('error detected - see logs');
+	});
+
+	tmpReq.on('response', function (tmpRes) {
+	  if (tmpRes.statusCode != 200) return this.emit('error', new Error('Bad status code'));	  	
+		var body = '';
+		  tmpRes.on('data', function (chunk) {
+		    body += chunk;
+		  });
+		  tmpRes.on('end', function () {
+		    console.log('BODY: ' + body);
+
+		    	var cheerio = require('cheerio');
+		    	$ = cheerio.load(body);
+		    	res.send($(selector).html());
+		    	
+		  });
+	});
+
+
+
+	
+});
+
 
 app.listen((process.env.PORT || 5000),function () {
 });
