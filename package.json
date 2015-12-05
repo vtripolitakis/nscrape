@@ -4,7 +4,7 @@
   "description": "Scraper for blogs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [
     "scraper",
@@ -12,7 +12,7 @@
     "feed"
   ],
   "author": "Evangelos Tripolitakis",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
     "feedparser": "^1.1.4",
