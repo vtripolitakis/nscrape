@@ -56,12 +56,12 @@ app.get('/scrape', function (req,res) {
 app.get('/parse', function (req,res) {
 	var link = req.query.link;
 	var selector = req.query.selector;
+	var toRemove = req.query.toRemove;
 
 	var out='';
 	var request = require('request');
-
 	var tmpReq = request(req.query.link);
-
+	
 	tmpReq.on('error', function (error) {
 	  // handle any request errors
 	  res.send('error detected - see logs');
@@ -74,18 +74,12 @@ app.get('/parse', function (req,res) {
 		    body += chunk;
 		  });
 		  tmpRes.on('end', function () {
-		    console.log('BODY: ' + body);
-
 		    	var cheerio = require('cheerio');
-		    	$ = cheerio.load(body);
+		    	$ = cheerio.load(body,{xmlMode: true,normalizeWhitespace: true});		    	
+		    	$(toRemove).remove();				
 		    	res.send($(selector).html());
-		    	
 		  });
 	});
-
-
-
-	
 });
 
 
