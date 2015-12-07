@@ -10,46 +10,9 @@ app.get('/', function (req, res) {
 
 
 app.get('/scrape', function (req,res) {
-
-	var out='';
-	var FeedParser = require('feedparser')
-	  , request = require('request');
-
-	var tmpReq = request(req.query.link)
-	  , feedparser = new FeedParser();
-	tmpReq.on('error', function (error) {
-	  // handle any request errors
-	  res.send('error detected - see logs');
-	});
-	tmpReq.on('response', function (tmpRes) {
-	  var stream = this;
-
-	  if (tmpRes.statusCode != 200) return this.emit('error', new Error('Bad status code'));
-
-	  stream.pipe(feedparser);
-	});
-
-	feedparser.on('error', function(error) {
-	  // always handle errors
-	  res.send('error detected - see logs');
-	});
-
-	feedparser.on('readable', function() {
-	    var post;    
-	    while (post = this.read()) {
-	      //out=out+(JSON.stringify(post.title+"@"+post.guid+"<br/>", ' ', 4));      
-	      out=out+post.guid;
-	      out=out+"<br/>";
-	      out=out+post.title;
-	      out=out+"<br/>";
-	      out=out+post.description;
-	      out=out+"<br/>";
-	    }
-	});
-
-	feedparser.on('end', function() {
-	    res.send(out);
-	});
+	var link = req.query.link;
+	var parseUtil = require('./parseUtil.js');
+	parseUtil.getFeed(link,function(data){res.send(data);});
 });
 
 app.get('/parse', function (req,res) {
