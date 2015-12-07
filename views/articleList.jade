@@ -7,11 +7,11 @@ html
 
 		div(class="lala")
 			for post in posts
-				h2(class="url" data-url="#{post.guid}") #{post.title}
+				h2(class="url" data-url="#{post.guid}" data-selector="#{selector}" data-toRemove="#{toRemove}") #{post.title}
 				p #{post.guid}
 				p!=post.description
 
-		div(class="koko")
+		div(class="rightColumn")
 
 		script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
 		script(src="/javascripts/main.js")

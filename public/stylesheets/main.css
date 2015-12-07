@@ -1,4 +1,4 @@
-div.koko
+div.rightColumn
 {
 	width:50%;
 	float:left;
@@ -8,4 +8,11 @@ div.lala
 {
 	width:50%;
 	float:left;
+	height:700px;
+	overflow:auto;
+}
+
+.url
+{
+	cursor: pointer;
 }

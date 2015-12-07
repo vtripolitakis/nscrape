@@ -14,9 +14,11 @@ app.get('/', function (req, res) {
 
 app.get('/scrape', function (req,res) {
 	var link = req.query.link;
+	var theSelector = req.query.selector;
+	var theToRemove = req.query.toRemove;
 	var parseUtil = require('./parseUtil.js');
 	parseUtil.getFeed(link,function(data){
-		res.render('articleList',{title:'ArticleList',message:'Article List',posts:data});
+		res.render('articleList',{title:'ArticleList',message:'Article List',posts:data,selector:theSelector,toRemove:theToRemove});
 	});
 });
 
