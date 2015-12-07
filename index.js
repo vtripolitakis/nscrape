@@ -4,6 +4,7 @@ var app = express();
 app.set('port', (process.env.PORT || 5000));
 app.set('views', './views');
 app.set('view engine', 'jade');
+app.use(express.static('public'));
 
 
 app.get('/', function (req, res) {
@@ -14,7 +15,9 @@ app.get('/', function (req, res) {
 app.get('/scrape', function (req,res) {
 	var link = req.query.link;
 	var parseUtil = require('./parseUtil.js');
-	parseUtil.getFeed(link,function(data){res.send(data);});
+	parseUtil.getFeed(link,function(data){
+		res.render('articleList',{title:'ArticleList',message:'Article List',posts:data});
+	});
 });
 
 app.get('/parse', function (req,res) {

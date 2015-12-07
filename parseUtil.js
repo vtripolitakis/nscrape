@@ -1,7 +1,7 @@
 
 exports.getFeed = function(link,successCallback)
 {
-	var out='';
+	var out=[];
 	var FeedParser = require('feedparser')
 	  , request = require('request');
 
@@ -28,12 +28,13 @@ exports.getFeed = function(link,successCallback)
 	    var post;    
 	    while (post = this.read()) {
 	      //out=out+(JSON.stringify(post.title+"@"+post.guid+"<br/>", ' ', 4));      
-	      out=out+post.guid;
-	      out=out+"<br/>";
-	      out=out+post.title;
-	      out=out+"<br/>";
-	      out=out+post.description;
-	      out=out+"<br/>";
+	      //out=out+post.guid;
+	      //out=out+"<br/>";
+	      //out=out+post.title;
+	      //out=out+"<br/>";
+	      //out=out+post.description;
+	      //out=out+"<br/>";
+	      out.push(post);
 	    }
 	});
 

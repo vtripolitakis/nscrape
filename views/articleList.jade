@@ -1,0 +1,17 @@
+html
+	head
+		title!=title
+		link(rel='stylesheet', href='stylesheets/main.css', type='text/css' )
+	body
+		h1!=message
+
+		div(class="lala")
+			for post in posts
+				h2(class="url" data-url="#{post.guid}") #{post.title}
+				p #{post.guid}
+				p!=post.description
+
+		div(class="koko")
+
+		script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+		script(src="/javascripts/main.js")
