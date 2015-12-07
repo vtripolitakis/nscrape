@@ -7,8 +7,8 @@ html
 
 		div(class="lala")
 			for post in posts
-				h2(class="url" data-url="#{post.guid}" data-selector="#{selector}" data-toRemove="#{toRemove}") #{post.title}
-				p #{post.guid}
+				h2(class="url" data-url="#{post.link}" data-selector="#{selector}" data-toRemove="#{toRemove}") #{post.title}
+				p #{post.link}
 				p!=post.description
 
 		div(class="rightColumn")
