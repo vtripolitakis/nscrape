@@ -1,0 +1,11 @@
+html
+	head
+		title!=post.title
+		link(rel='stylesheet', href='/stylesheets/main.css', type='text/css' )
+	body
+		h1!=post.title
+		article
+			div(class="content")!=post.content
+
+		script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+		script(src="/javascripts/main.js")

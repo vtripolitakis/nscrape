@@ -27,13 +27,6 @@ exports.getFeed = function(link,successCallback)
 	feedparser.on('readable', function() {
 	    var post;    
 	    while (post = this.read()) {
-	      //out=out+(JSON.stringify(post.title+"@"+post.guid+"<br/>", ' ', 4));      
-	      //out=out+post.guid;
-	      //out=out+"<br/>";
-	      //out=out+post.title;
-	      //out=out+"<br/>";
-	      //out=out+post.description;
-	      //out=out+"<br/>";
 	      out.push(post);
 	    }
 	});
@@ -42,7 +35,6 @@ exports.getFeed = function(link,successCallback)
 	    successCallback(out);
 	});
 }
-
 
 
 

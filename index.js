@@ -40,6 +40,34 @@ app.get('/parseToConsole', function (req,res) {
 	res.send("OK");
 });
 
+app.get('/addToMongo/:title', function (req,res) {
+	var mongoStuff = require('./mongoStuff.js');
+	var parseUtil = require('./parseUtil.js');
+	var link = req.query.link;
+	var selector = req.query.selector;
+	var toRemove = req.query.toRemove;
+	var postTitle = req.params.title;
+
+	parseUtil.getBody(link,selector,toRemove,function(data){
+			console.log(data);
+			//ToDo: do it better with callback... anyway
+			var toAdd={};
+			toAdd.title=postTitle;
+			toAdd.content=data;
+			mongoStuff.addToMongo(toAdd);
+		});
+	res.send("OK");
+});
+
+
+
+app.get('/show/:articleId', function(req,res){
+	var mongoStuff = require('./mongoStuff.js');
+	var debug = require('debug');
+	mongoStuff.getArticle(req.params.articleId,
+		function(err,doc){
+			res.render('article',{post:doc});});	
+});
 
 app.listen((process.env.PORT || 5000),function () {
 });
