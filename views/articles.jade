@@ -1,0 +1,13 @@
+html
+	head
+		
+		link(rel='stylesheet', href='stylesheets/main.css', type='text/css' )
+	body
+		
+
+		div(class="articleList")
+			for post in posts				
+				a(href='show/#{post._id}')
+					h2(class="url") #{post.title}						
+
+		script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")		

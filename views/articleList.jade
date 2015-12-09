@@ -5,7 +5,7 @@ html
 	body
 		h1!=message
 
-		div(class="lala")
+		div(class="leftColumn")
 			for post in posts
 				h2(class="url" data-url="#{post.link}" data-selector="#{selector}" data-toRemove="#{toRemove}") #{post.title}
 				p #{post.link}

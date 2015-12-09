@@ -38,7 +38,7 @@ exports.getFeed = function(link,successCallback)
 
 
 
-exports.getBody = function(link,selector,toRemove,successCallback)
+exports.getBody = function(link,selector,toRemove,other,successCallback)
 {
 	var out='';
 	var request = require('request');
@@ -59,7 +59,7 @@ exports.getBody = function(link,selector,toRemove,successCallback)
 		    	var cheerio = require('cheerio');
 		    	$ = cheerio.load(body,{xmlMode: true,normalizeWhitespace: true});		    	
 		    	$(toRemove).remove();				
-		    	successCallback($(selector).html());
+		    	successCallback($(selector).html(),other);
 		  });
 	});
 }
