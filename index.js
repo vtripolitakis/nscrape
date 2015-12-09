@@ -44,7 +44,7 @@ app.get('/scrapeToMongo', function (req,res) {
 				console.log(data);
 				if (data==0)
 				{
-					parseUtil.getBody(theLink,theSelector,theToRemove,other,function(theData,other){
+					parseUtil.getBody(other.link,theSelector,theToRemove,other,function(theData,other){
 						//ToDo: do it better with callback... anyway			
 						//toAdd.content=theData;
 						var toAdd={};
@@ -71,7 +71,8 @@ app.get('/parse', function (req,res) {
 	var selector = req.query.selector;
 	var toRemove = req.query.toRemove;
 	var parseUtil = require('./parseUtil.js');
-	parseUtil.getBody(link,selector,toRemove,null,function(data,other){res.send(data);});
+	var other = {};
+	parseUtil.getBody(link,selector,toRemove,other,function(data,other){res.send(data);});
 });
 
 
