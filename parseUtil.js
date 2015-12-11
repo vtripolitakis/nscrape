@@ -9,7 +9,7 @@ exports.getFeed = function(link,successCallback)
 	  , feedparser = new FeedParser();
 	tmpReq.on('error', function (error) {
 	  // handle any request errors
-	  res.send('error detected - see logs');
+	  res.send('request error detected - '+error);
 	});
 	tmpReq.on('response', function (tmpRes) {
 	  var stream = this;
@@ -21,7 +21,7 @@ exports.getFeed = function(link,successCallback)
 
 	feedparser.on('error', function(error) {
 	  // always handle errors
-	  console.log('error detected - see logs');
+	  console.log('feedparser error detected - see logs' + error);
 	});
 
 	feedparser.on('readable', function() {
