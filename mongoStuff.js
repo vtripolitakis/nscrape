@@ -39,7 +39,7 @@ exports.getAll = function(fn)
 {
 	var db = require('monk')(config.configData.host+':'+config.configData.port+'/'+config.configData.db);
 	var posts = db.get(config.configData.collection);
-	posts.find({},
+	posts.find({},{sort: {date: -1}},
 		function(err,docs)
 		{
 			db.close();	
