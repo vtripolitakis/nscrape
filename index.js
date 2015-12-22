@@ -14,18 +14,44 @@ app.get('/', function (req, res) {
 app.get('/testwp', function (req, res) {
   
 	var WP = require( 'wordpress-rest-api' );
+	var config = require('./config.js');
 	var wp = new WP({ 
-		endpoint: 'url',
-		username: '',
-		password: '' 
+		endpoint: config.configData.wpEndpoint,
+		username: config.configData.wpUsername,
+		password: config.configData.wpPassword 
 	});
 
-	wp.posts().post({title:'aaa',excerpt:'aa',status:'draft','content':'bbbb'}).then(function (err,data)
+	wp.posts().post({title:'aaa2',excerpt:'aa2',status:'draft',content:'bbbb2',featured_image:192}).then(function (err,data)
 	{
 		console.log(JSON.stringify(data));
 		console.log(JSON.stringify(err));
 	});
 
+
+	res.send("OK");
+
+});
+
+
+app.get('/testwpimage', function (req, res) {
+  
+	var request = require('request');
+	var config = require('./config.js');
+	var fs = require('fs');
+
+	var formData = {
+  		file: fs.createReadStream('/Users/vaggelis/Desktop/ss1.png')
+	};
+
+	request.post({url:config.configData.wpEndpoint+'media', formData: formData}, 
+		function optionalCallback(err, httpResponse, body) {	
+		  if (err) {
+		    return console.error('upload failed:', err);
+		  }
+		  console.log('Upload successful!  Server responded with:', body);
+		})
+	.auth(config.configData.wpUsername,config.configData.wpPassword,true);
+	
 
 	res.send("OK");
 
