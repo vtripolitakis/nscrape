@@ -44,7 +44,9 @@ app.get('/scrapeToMongo', function (req,res) {
 				console.log(data);
 				if (data==0)
 				{
-					parseUtil.getBody(other.link,theSelector,theToRemove,other,function(theData,other){
+					var fixedLink = other.link.replace(/\/+$/, "");
+					console.log(fixedLink);
+					parseUtil.getBody(fixedLink,theSelector,theToRemove,other,function(theData,other){
 						//ToDo: do it better with callback... anyway			
 						//toAdd.content=theData;
 						var toAdd={};
