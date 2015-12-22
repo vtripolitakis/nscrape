@@ -11,6 +11,26 @@ app.get('/', function (req, res) {
   res.render('index', { title: 'Hey', message: 'Hello there!'});
 });
 
+app.get('/testwp', function (req, res) {
+  
+	var WP = require( 'wordpress-rest-api' );
+	var wp = new WP({ 
+		endpoint: 'url',
+		username: '',
+		password: '' 
+	});
+
+	wp.posts().post({title:'aaa',excerpt:'aa',status:'draft','content':'bbbb'}).then(function (err,data)
+	{
+		console.log(JSON.stringify(data));
+		console.log(JSON.stringify(err));
+	});
+
+
+	res.send("OK");
+
+});
+
 
 app.get('/scrape', function (req,res) {
 	var link = req.query.link;
