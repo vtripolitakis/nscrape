@@ -64,4 +64,11 @@ exports.getBody = function(link,selector,toRemove,other,successCallback)
 	});
 }
 
+exports.getImageinRssDescription = function(data)
+{
+	var cheerio = require('cheerio');
+	$ = cheerio.load(data,{xmlMode: true,normalizeWhitespace: true});
+	return $('img').attr('src');
+}
+
 

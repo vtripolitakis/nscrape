@@ -54,18 +54,26 @@ app.get('/scrapeToWordpress', function (req,res) {
 		for (i in data)
 		{			
 			var other={};
+			var id=-1;
+			//get image from description
+			var descriptionImage = parseUtil.getImageinRssDescription(data[i].description);
+			
 			var theLink =data[i].link;
 			other.link=theLink;
 			other.title=data[i].title;
 			other.date=data[i].date;
+			other.descriptionImage=descriptionImage;
 
 			var fixedLink = other.link.replace(/\/+$/, "");
-			console.log(fixedLink);
+			//console.log(fixedLink);
 			parseUtil.getBody(fixedLink,theSelector,theToRemove,other,function(theData,other){
-				console.log("inserting")											
-				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]});
+				//console.log("inserting")	
+				
+				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]},other,function(data)
+					{
+						console.log(data);
+					});
 			});
-
 		}
 		res.send("Job Dispatched");
 	});
