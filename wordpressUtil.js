@@ -1,6 +1,6 @@
 var config = require('./config.js');
 
-exports.addToWordpress = function(data,options,fn)
+exports.addToWordpress = function(data,fn)
 {
 	var id=-1;
 	var WP = require( 'wordpress-rest-api' );
@@ -11,13 +11,26 @@ exports.addToWordpress = function(data,options,fn)
 		password: config.configData.wpPassword 
 	});
 
-	wp.posts().post({title:data.title,excerpt:data.excerpt,status:'draft',content:data.content,categories:data.categories}).then(function (data,options)
-	{
-		fn(data.id,options);
-	});
-	
+	wp.posts().post({title:data.title,excerpt:data.excerpt,status:'draft',content:data.content,categories:data.categories},function(err,data)
+		{
+			fn(data.id);
+			
+		});
+
 }
 
+exports.downloadFile = function(uri, filename, callback)
+{	
+	var request = require('request');
+	var config = require('./config.js');
+	var fs = require('fs');
+
+   	request.head(uri, function(err, res, body){
+    //console.log('content-type:', res.headers['content-type']);
+    //console.log('content-length:', res.headers['content-length']);
+    request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+  });
+}
 
 exports.uploadMedia = function(data,fn)
 {
@@ -52,12 +65,12 @@ exports.setFeaturedImage = function(data)
 	});
 
 	
-	console.log("==");
-	console.log(data.featured_media);
-	console.log("==");
+	//console.log("==");
+	//console.log(data.featured_media);
+	//console.log("==");
 	wp.posts().id(data.id).post({featured_media:data.featured_media}).then(function (data)
 	{
-		console.log(JSON.stringify(data));
+		//console.log(JSON.stringify(data));
 	});
 
 }

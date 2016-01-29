@@ -66,14 +66,29 @@ app.get('/scrapeToWordpress', function (req,res) {
 
 			var fixedLink = other.link.replace(/\/+$/, "");
 			//console.log(fixedLink);
+			var koko=0;
 			parseUtil.getBody(fixedLink,theSelector,theToRemove,other,function(theData,other){
 				//console.log("inserting")	
-				
-				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]},other,function(data)
-					{
-						console.log(data);
-					});
+				var descriptionImage = other.descriptionImage;
+				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]},
+			 		function(data){
+			 			//console.log(descriptionImage);
+				 		//console.log(data);
+				 		var postId=data;
+				 		WP.downloadFile(descriptionImage,'/home/vaggelis/work/web/nscrape/images/'+postId+'.jpg',function(data){
+				 				var p = postId;
+				 				WP.uploadMedia({filename:'/home/vaggelis/work/web/nscrape/images/'+p+'.jpg'},
+									function(data)
+									{
+										var body=JSON.parse(data);
+										WP.setFeaturedImage({id:p,featured_media:body.id});
+									}
+								);
+				 		});				 		
+			 		}
+		 		);
 			});
+
 		}
 		res.send("Job Dispatched");
 	});
