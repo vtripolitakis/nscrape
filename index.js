@@ -12,24 +12,9 @@ app.get('/', function (req, res) {
 });
 
 app.get('/testwp', function (req, res) {
-  
-	var WP = require( 'wordpress-rest-api' );
-	var config = require('./config.js');
-	var wp = new WP({ 
-		endpoint: config.configData.wpEndpoint,
-		username: config.configData.wpUsername,
-		password: config.configData.wpPassword 
-	});
-
-	wp.posts().post({title:'aaa2',excerpt:'aa2',status:'draft',content:'bbbb2',featured_image:192}).then(function (err,data)
-	{
-		console.log(JSON.stringify(data));
-		console.log(JSON.stringify(err));
-	});
-
-
+	var WP = require('./wordpressUtil.js');
+	WP.addToWordpress({title:'aaa23',excerpt:'aa24',status:'draft',content:'bbbb6sdf2'});
 	res.send("OK");
-
 });
 
 
