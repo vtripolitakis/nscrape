@@ -13,32 +13,23 @@ app.get('/', function (req, res) {
 
 app.get('/testwp', function (req, res) {
 	var WP = require('./wordpressUtil.js');
-	WP.addToWordpress({title:'aaa23',excerpt:'aa24',status:'draft',content:'bbbb6sdf2'});
+	WP.addToWordpress({title:'aaa23',excerpt:'aa24',status:'draft',content:'bbbb6sdf2',categories:[4,6],featured_media:body.id});
 	res.send("OK");
 });
 
 
 app.get('/testwpimage', function (req, res) {
   
-	var request = require('request');
-	var config = require('./config.js');
-	var fs = require('fs');
-
-	var formData = {
-  		file: fs.createReadStream('/Users/vaggelis/Desktop/ss1.png')
-	};
-
-	request.post({url:config.configData.wpEndpoint+'media', formData: formData}, 
-		function optionalCallback(err, httpResponse, body) {	
-		  if (err) {
-		    return console.error('upload failed:', err);
-		  }
-		  console.log('Upload successful!  Server responded with:', body);
-		})
-	.auth(config.configData.wpUsername,config.configData.wpPassword,true);
-	
-
-	res.send("OK");
+	var WP = require('./wordpressUtil.js');
+	WP.uploadMedia({filename:'/home/vaggelis/Desktop/seaside2.jpg'},
+		function(data)
+		{
+			var body=JSON.parse(data);
+			WP.addToWordpress({title:'aaa23',excerpt:'aa24',status:'draft',content:'bbbb6sdf2',categories:[4,6],featured_media:body.id});
+			res.send("OK "+body.id);
+		}
+	);
+	//res.send("OK");
 
 });
 
