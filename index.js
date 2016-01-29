@@ -13,7 +13,7 @@ app.get('/', function (req, res) {
 
 app.get('/testwp', function (req, res) {
 	var WP = require('./wordpressUtil.js');
-	WP.addToWordpress({title:'aaa23',excerpt:'aa24',status:'draft',content:'bbbb6sdf2',categories:[4,6]});
+	WP.addToWordpress({title:'aaa23',excerpt:'aa24',status:'draft',content:'bbbb6sdf2',categories:[2,3]},function(data){});
 	res.send("OK");
 });
 
@@ -70,7 +70,7 @@ app.get('/scrapeToWordpress', function (req,res) {
 			parseUtil.getBody(fixedLink,theSelector,theToRemove,other,function(theData,other){
 				//console.log("inserting")	
 				var descriptionImage = other.descriptionImage;
-				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]},
+				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[2,3]},
 			 		function(data){
 			 			//console.log(descriptionImage);
 				 		//console.log(data);

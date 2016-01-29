@@ -14,7 +14,6 @@ exports.addToWordpress = function(data,fn)
 	wp.posts().post({title:data.title,excerpt:data.excerpt,status:'draft',content:data.content,categories:data.categories},function(err,data)
 		{
 			fn(data.id);
-			
 		});
 
 }
