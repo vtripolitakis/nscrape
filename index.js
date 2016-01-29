@@ -58,22 +58,13 @@ app.get('/scrapeToWordpress', function (req,res) {
 			other.link=theLink;
 			other.title=data[i].title;
 			other.date=data[i].date;
-			console.log("checking: "+ data[i].title);
-			
 
 			var fixedLink = other.link.replace(/\/+$/, "");
-					console.log(fixedLink);
-					parseUtil.getBody(fixedLink,theSelector,theToRemove,other,function(theData,other){
-						//ToDo: do it better with callback... anyway			
-						//toAdd.content=theData;
-						//var toAdd={};
-						//toAdd.title=other.title;
-						//toAdd.link=other.link;
-						//toAdd.date=other.date;		
-						//toAdd.content=theData;	
-						console.log("inserting")											
-						WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]});
-					});
+			console.log(fixedLink);
+			parseUtil.getBody(fixedLink,theSelector,theToRemove,other,function(theData,other){
+				console.log("inserting")											
+				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[4,6]});
+			});
 
 		}
 		res.send("Job Dispatched");
