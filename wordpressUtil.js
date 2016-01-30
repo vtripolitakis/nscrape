@@ -23,8 +23,14 @@ exports.downloadFile = function(uri, filename, callback)
 	var request = require('request');
 	var config = require('./config.js');
 	var fs = require('fs');
+	//console.log("URI IS:");
+	//console.log(uri);
+	//console.log("END URI IS");
 
    	request.head(uri, function(err, res, body){
+   	//console.log(err);
+   	//console.log(res);
+   	//console.log(body);
     //console.log('content-type:', res.headers['content-type']);
     //console.log('content-length:', res.headers['content-length']);
     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);

@@ -9,7 +9,7 @@ exports.getFeed = function(link,successCallback)
 	  , feedparser = new FeedParser();
 	tmpReq.on('error', function (error) {
 	  // handle any request errors
-	  res.send('request error detected - '+error);
+	  console.log('request error detected - '+error);
 	});
 	tmpReq.on('response', function (tmpRes) {
 	  var stream = this;
@@ -64,7 +64,7 @@ exports.getBody = function(link,selector,toRemove,other,successCallback)
 	});
 }
 
-exports.getImageinRssDescription = function(data)
+exports.getImageinRss = function(data)
 {
 	var cheerio = require('cheerio');
 	$ = cheerio.load(data,{xmlMode: true,normalizeWhitespace: true});

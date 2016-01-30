@@ -44,6 +44,7 @@ app.get('/updatedfeaturedimage', function (req, res) {
 
 app.get('/scrapeToWordpress', function (req,res) {
 	var debug=require('debug');
+	var fs = require('fs');
 	var parseUtil = require('./parseUtil.js');
 	var WP = require('./wordpressUtil.js');
 	var feedLink = req.query.link;
@@ -56,7 +57,11 @@ app.get('/scrapeToWordpress', function (req,res) {
 			var other={};
 			var id=-1;
 			//get image from description
-			var descriptionImage = parseUtil.getImageinRssDescription(data[i].description);
+			//console.log(data[i].guid);
+			var descriptionImage = parseUtil.getImageinRss(data[i].description);
+			//console.log("----");
+			//console.log(descriptionImage);
+			//console.log("----");
 			
 			var theLink =data[i].link;
 			other.link=theLink;
@@ -72,19 +77,33 @@ app.get('/scrapeToWordpress', function (req,res) {
 				var descriptionImage = other.descriptionImage;
 				WP.addToWordpress({title:other.title,excerpt:'',status:'draft',content:theData,categories:[2,3]},
 			 		function(data){
-			 			//console.log(descriptionImage);
+
 				 		//console.log(data);
 				 		var postId=data;
-				 		WP.downloadFile(descriptionImage,'/home/vaggelis/work/web/nscrape/images/'+postId+'.jpg',function(data){
-				 				var p = postId;
-				 				WP.uploadMedia({filename:'/home/vaggelis/work/web/nscrape/images/'+p+'.jpg'},
-									function(data)
-									{
-										var body=JSON.parse(data);
-										WP.setFeaturedImage({id:p,featured_media:body.id});
-									}
-								);
-				 		});				 		
+
+				 		if (typeof descriptionImage==='undefined')
+				 		{
+				 			console.log ("no image in rss description");
+				 		}
+				 		else{
+					 		WP.downloadFile(descriptionImage,'/Users/vaggelis/work/web/nscrape/images/'+postId+'.jpg',function(data){
+					 				//console.log(data)
+					 				var p = postId;
+					 				fs.exists('/Users/vaggelis/work/web/nscrape/images/'+p+'.jpg',function(exists)
+					 					{
+					 						if (exists)
+					 						{
+					 							WP.uploadMedia({filename:'/Users/vaggelis/work/web/nscrape/images/'+p+'.jpg'},
+													function(data)
+													{
+														var body=JSON.parse(data);
+														WP.setFeaturedImage({id:p,featured_media:body.id});
+													}
+												);
+					 						}
+					 					});				 				
+					 		});
+				 		}				 		
 			 		}
 		 		);
 			});
